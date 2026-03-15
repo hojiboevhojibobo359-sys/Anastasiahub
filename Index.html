@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анастасия Хуб · романтические встречи</title>
+    <!-- Font Awesome 6 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Font: Playfair Display + Montserrat -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: radial-gradient(circle at 30% 30%, #1e0b1a, #0d070e);
+            color: #f5e9f0;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* романтический свет / свечи (имитация) */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 70% 20%, rgba(255, 140, 200, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 20% 80%, rgba(255, 180, 100, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            backdrop-filter: blur(2px);
+        }
+
+        /* интимная мягкость — всё с лёгким свечением */
+        .glass-card {
+            background: rgba(30, 12, 28, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 200, 220, 0.15);
+            border-radius: 30px;
+            box-shadow: 0 25px 40px -15px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 160, 200, 0.1) inset, 0 0 30px rgba(255, 140, 200, 0.3);
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(255, 180, 200, 0.3);
+            box-shadow: 0 30px 50px -15px #220015, 0 0 0 1px rgba(255, 190, 230, 0.3) inset, 0 0 45px #ff99cc55;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            background: linear-gradient(135deg, #ffd6e8, #ffb3d9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px #ff80bf;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: #ffd2e8;
+            text-shadow: 0 2px 10px #ff339966;
+            border-left: 5px solid #ff80b3;
+            padding-left: 20px;
+            margin: 20px 0 25px;
+        }
+
+        /* шапка */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .avatar-logo {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #b34180, #5e2a4a);
+            border: 2px solid #ffc0cb;
+            box-shadow: 0 0 30px #ff99cc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.3rem;
+            color: #ffe6f0;
+        }
+
+        .online-badge {
+            background: rgba(180, 70, 120, 0.5);
+            backdrop-filter: blur(5px);
+            padding: 10px 25px;
+            border-radius: 50px;
+            border: 1px solid #ffb6c1;
+            font-size: 1.1rem;
+            font-weight: 400;
+            box-shadow: 0 0 20px #ff69b455;
+        }
+
+        .online-badge i {
+            color: #69ff8b;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; text-shadow: 0 0 5px #7fff7f; }
+            50% { opacity: 0.6; text-shadow: 0 0 15px #adff2f; }
+            100% { opacity: 1; text-shadow: 0 0 5px #7fff7f; }
+        }
+
+        /* главный профиль — как будто комната */
+        .hero {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .video-placeholder {
+            position: relative;
+            border-radius: 40px;
+            overflow: hidden;
+            aspect-ratio: 4 / 5;
+            background: linear-gradient(145deg, #3a1a2e, #1e0f1a);
+            border: 2px solid #b34e7e;
+            box-shadow: 0 0 40px #b34b7e, inset 0 0 50px #aa3366;
+        }
+
+        .video-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+            transition: 0.4s;
+            filter: sepia(20%) hue-rotate(320deg) brightness(0.9);
+        }
+
+        .video-overlay {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(20, 5, 15, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 12px 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 1px solid #ffb3d1;
+        }
+
+        .video-overlay i {
+            font-size: 2rem;
+            color: #ff99cc;
+            filter: drop-shadow(0 0 10px #ff33aa);
+        }
+
+        .status-cam {
+            font-weight: 300;
+            font-size: 0.9rem;
+            color: #e6c0d0;
+        }
+
+        .name-large {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #ffe2f0;
+        }
+
+        .hero-description {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero-description p {
+            font-size: 1.2rem;
+            margin: 15px 0 20px;
+            opacity: 0.9;
+            font-style: italic;
+            border-left: 2px solid #ff99bb;
+            padding-left: 20px;
+        }
+
+        .info-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .tag {
+            background: rgba(255, 170, 200, 0.2);
+            border: 1px solid rgba(255, 140, 180, 0.7);
+            border-radius: 40px;
+            padding: 10px 25px;
+            font-weight: 300;
+            font-size: 1rem;
+        }
+
+        .fake-counter {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 30px;
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .counter-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .counter-item i {
+            font-size: 1.8rem;
+            color: #fd9ec4;
+        }
+
+        /* карточки тарифов (fake payment) */
+        .tariff-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .tariff-card {
+            background: rgba(40, 20, 35, 0.7);
+            backdrop-filter: blur(8px);
+            border-radius: 40px;
+            border: 1px solid #ffb6c166;
+            padding: 30px 20px;
+            text-align: center;
+            transition: 0.25s;
+            cursor: pointer;
+        }
+
+        .tariff-card:hover {
+            transform: translateY(-10px);
+            border-color: #ffa0c5;
+            box-shadow: 0 0 40px #ff8cb3;
+        }
+
+        .tariff-card h3 {
+            font-size: 1.9rem;
+            margin-bottom: 15px;
+            color: #ffc1d4;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 20px 0;
+            text-shadow: 0 0 20px #fff;
+        }
+
+        .price small {
+            font-size: 1.2rem;
+            font-weight: 300;
+            opacity: 0.7;
+        }
+
+        .btn-pay {
+            background: linear-gradient(145deg, #b34180, #802d5c);
+            border: none;
+            color: white;
+            font-size: 1.3rem;
+            padding: 15px 35px;
+            border-radius: 60px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            border: 1px solid #ffb3d1;
+            box-shadow: 0 5px 0 #3f1a30, 0 10px 25px #b3006b;
+            transition: 0.1s ease;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .btn-pay:active {
+            transform: translateY(5px);
+            box-shadow: 0 2px 0 #3f1a30, 0 8px 20px #b3006b;
+        }
+
+        /* фейковые посетители (online now) */
+        .visitors-section {
+            margin: 50px 0;
+        }
+
+        .visitors-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .visitor-card {
+            background: rgba(60, 30, 45, 0.5);
+            backdrop-filter: blur(6px);
+            border-radius: 80px;
+            padding: 12px 25px 12px 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 1px solid #ffb3c6;
+            transition: 0.2s;
+            min-width: 200px;
+        }
+
+        .visitor-card i {
+            font-size: 2rem;
+            color: #cca3b5;
+        }
+
+        .visitor-info h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .visitor-info p {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .online-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: #76ff7e;
+            border-radius: 50%;
+            margin-left: 8px;
+            box-shadow: 0 0 15px #00ff88;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* фейковый чат */
+        .fake-chat {
+            margin: 40px 0;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 40px;
+            padding: 30px;
+        }
+
+        .message {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: flex-start;
+        }
+
+        .message-avatar {
+            width: 50px;
+            height: 50px;
+            background: #a5376b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            border: 1px solid #ffb3d9;
+        }
+
+        .message-bubble {
+            background: rgba(255, 220, 240, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid #ffa8c5;
+            border-radius: 25px 25px 25px 5px;
+            padding: 15px 25px;
+            max-width: 70%;
+        }
+
+        .message-bubble p {
+            margin-bottom: 5px;
+        }
+
+        .time {
+            font-size: 0.7rem;
+            opacity: 0.5;
+        }
+
+        /* уведомления (fake) */
+        .notification-area {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+
+        .notif {
+            background: rgba(70, 30, 50, 0.8);
+            backdrop-filter: blur(16px);
+            border-left: 6px solid #ff80b5;
+            border-radius: 30px;
+            padding: 15px 30px;
+            color: #fff0f7;
+            font-weight: 400;
+            box-shadow: 0 10px 30px #1a0015;
+            transform: translateX(0);
+            animation: slideIn 0.4s ease;
+            border: 1px solid #ffb3d1;
+            pointer-events: none;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(100px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* footer */
+        .footer {
+            text-align: center;
+            margin-top: 70px;
+            padding: 30px 10px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            border-top: 1px dashed #ff99bb55;
+        }
+
+        /* кнопка вызова фейк-уведомления (для демо) */
+        .fake-trigger {
+            text-align: right;
+            margin: 10px 0;
+        }
+
+        .fake-trigger button {
+            background: transparent;
+            border: 1px solid #ffb3c6;
+            border-radius: 40px;
+            padding: 8px 25px;
+            color: #ffc1d4;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .fake-trigger button:hover {
+            background: #ffb3c622;
+        }
+
+        /* адаптивность */
+        @media (max-width: 900px) {
+            .hero { grid-template-columns: 1fr; }
+            .tariff-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- header с фейковым статусом -->
+        <div class="header">
+            <div class="logo-area">
+                <div class="avatar-logo">
+                    <i class="fas fa-crown"></i>
+                </div>
+                <div>
+                    <h1>Анастасия Хуб</h1>
+                    <span style="font-size: 0.9rem; letter-spacing: 2px;">✦ elixir of intimacy ✦</span>
+                </div>
+            </div>
+            <div class="online-badge">
+                <i class="fas fa-circle"></i> <span id="onlineCount">248</span> человек сейчас на сайте
+            </div>
+        </div>
+
+        <!-- главный блок (видео/интим) -->
+        <div class="hero">
+            <div class="video-placeholder glass-card" style="padding: 0; border: none; overflow: hidden;">
+                <!-- фейковое "видео" - изображение девушки (picsum с настройкой тона) -->
+                <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=987&q=80" 
+                     alt="Anastasia" 
+                     style="filter: hue-rotate(320deg) brightness(0.8) contrast(1.2) saturate(1.3);">
+                <div class="video-overlay">
+                    <i class="fas fa-video"></i>
+                    <div>
+                        <div class="status-cam">видео-поток</div>
+                        <div class="name-large">Анастасия</div>
+                    </div>
+                    <span style="margin-left: auto; display: flex; gap: 5px;">
+                        <i class="fas fa-heart" style="color: #ff4477;"></i>
+                        <i class="fas fa-heart" style="color: #ff4477;"></i>
+                        <i class="fas fa-heart" style="color: #ff4477;"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="hero-description glass-card">
+                <h2 style="border: none; padding-left: 0;">Только для тебя</h2>
+                <p>«Создай свою романтическую историю с девушкой, которая умеет слушать сердцем. Шёпот, уют, полное единение...»</p>
+                <div class="info-tags">
+                    <span class="tag"><i class="far fa-clock"></i> 22 года</span>
+                    <span class="tag"><i class="fas fa-venus"></i> 170 см</span>
+                    <span class="tag"><i class="fas fa-compass"></i> Санкт-Петербург</span>
+                </div>
+                <div class="fake-counter">
+                    <div class="counter-item"><i class="fas fa-fire"></i> <span id="fakeViews">1.2k</span> просмотров</div>
+                    <div class="counter-item"><i class="fas fa-star"></i> <span id="fakeRating">4.98</span> (204)</div>
+                    <div class="counter-item"><i class="fas fa-gem"></i> элитный клуб</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- БЛОК ФЕЙКОВОЙ ОПЛАТЫ -->
+        <h2><i class="fas fa-lock-open" style="color: #ff99cc; margin-right: 15px;"></i> Выбери формат встречи</h2>
+        <div class="tariff-grid">
+            <div class="tariff-card">
+                <h3>Романтик</h3>
+                <div class="price">49 <small>₽</small></div>
+                <p>15 минут приватного видео<br> + подарок ❤️</p>
+                <button class="btn-pay pay-btn" data-plan="Романтик">Оплатить</button>
+            </div>
+            <div class="tariff-card">
+                <h3>Премиум</h3>
+                <div class="price">99 <small>₽</small></div>
+                <p>30 минут + возможность<br> попросить наряд</p>
+                <button class="btn-pay pay-btn" data-plan="Премиум">Оплатить</button>
+            </div>
+            <div class="tariff-card">
+                <h3>V.I.P.</h3>
+                <div class="price">199 <small>₽</small></div>
+                <p>60 минут + личный номер<br> и фотосет</p>
+                <button class="btn-pay pay-btn" data-plan="V.I.P.">Оплатить</button>
+            </div>
+        </div>
+
+        <!-- ФЕЙКОВЫЕ ПОСЕТИТЕЛИ (dynamic) -->
+        <div class="visitors-section">
+            <h2><i class="fas fa-user-friends" style="margin-right: 15px;"></i> Сейчас выбирают встречу</h2>
+            <div class="visitors-grid" id="visitorsList">
+                <!-- будут добавляться через js, но для начала статика + потом обновление -->
+            </div>
+        </div>
+
+        <!-- ФЕЙКОВЫЙ ЧАТ (интим-диалог) -->
+        <div class="fake-chat glass-card">
+            <h3 style="margin-bottom: 25px;"><i class="fas fa-comment-dots" style="color: #ff99cc;"></i> Анастасия пишет...</h3>
+            <div id="chatMessages">
+                <div class="message">
+                    <div class="message-avatar"><i class="fas fa-user-astronaut"></i></div>
+                    <div class="message-bubble">
+                        <p><strong>Анастасия</strong> <span class="time">только что</span></p>
+                        <p>Привет, милый... ждала именно тебя сегодня ✨</p>
+                    </div>
+                </div>
+                <div class="message">
+                    <div class="message-avatar"><i class="fas fa-user-tie"></i></div>
+                    <div class="message-bubble" style="background: rgba(200,140,180,0.1);">
+                        <p><strong>Ты (гость)</strong> <span class="time">1 мин назад</span></p>
+                        <p>Привет, Анастасия! Ты так красива...</p>
+                    </div>
+                </div>
+                <div class="message">
+                    <div class="message-avatar"><i class="fas fa-user-astronaut"></i></div>
+                    <div class="message-bubble">
+                        <p><strong>Анастасия</strong> <span class="time">сейчас</span></p>
+                        <p>Хочешь зажгу свечи? У меня сегодня уютная комната... 🕯️</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- подвал -->
+        <div class="footer">
+            <p>Анастасия Хуб © 2026 — только для взрослых. Все встречи конфиденциальны.</p>
+            <p style="margin-top: 10px; font-size: 0.8rem;">* Все данные, включая оплату и посетителей, являются демонстрационными (fake).</p>
+        </div>
+    </div>
+
+    <!-- контейнер для уведомлений -->
+    <div class="notification-area" id="notifArea"></div>
+
+    <script>
+        (function() {
+            // ========== ФЕЙКОВЫЙ СЧЁТЧИК ОНЛАЙН ==========
+            let online = 248;
+            const onlineSpan = document.getElementById('onlineCount');
+            setInterval(() => {
+                let delta = Math.floor(Math.random() * 5) - 2; // -2..+2
+                online = Math.max(180, online + delta);
+                onlineSpan.innerText = online;
+            }, 4000);
+
+            // ========== ФЕЙКОВЫЕ ПОСЕТИТЕЛИ ==========
+            const names = [
+                'Дмитрий', 'Максим', 'Артём', 'Никита', 'Илья', 'Кирилл', 'Павел', 'Роман', 'Андрей', 'Владислав',
+                'Егор', 'Алексей', 'Константин', 'Глеб', 'Матвей', 'Тимофей', 'Даниил'
+            ];
+            const cities = ['Москва', 'СПб', 'Киев', 'Минск', 'Алматы', 'Тбилиси', 'Берлин', 'Лондон', 'Нью-Йорк', 'Париж', 'Токио', 'Дубай'];
+            const visitorGrid = document.getElementById('visitorsList');
+
+            function generateVisitors(count = 8) {
+                let html = '';
+                for (let i = 0; i < count; i++) {
+                    let name = names[Math.floor(Math.random() * names.length)];
+                    let city = cities[Math.floor(Math.random() * cities.length)];
+                    let age = Math.floor(Math.random() * 16) + 25; // 25-40
+                    html += `
+                        <div class="visitor-card">
+                            <i class="fas fa-user-circle"></i>
+                            <div class="visitor-info">
+                                <h4>${name} <span class="online-dot"></span></h4>
+                                <p>${city}, ${age} лет · выбирает тариф</p>
+                            </div>
+                        </div>
+                    `;
+                }
+                visitorGrid.innerHTML = html;
+            }
+            generateVisitors(10);
+            // меняем каждые 12 секунд (фейковая активность)
+            setInterval(() => generateVisitors(9 + Math.floor(Math.random()*4)), 12000);
+
+            // ========== ФЕЙКОВЫЙ ПРОСМОТР/РЕЙТИНГ ==========
+            const viewsSpan = document.getElementById('fakeViews');
+            const ratingSpan = document.getElementById('fakeRating');
+            setInterval(() => {
+                let views = (parseFloat(viewsSpan.innerText) + (Math.random()*0.3)).toFixed(1) + 'k';
+                viewsSpan.innerText = views;
+                let rating = (4.92 + Math.random()*0.07).toFixed(2);
+                ratingSpan.innerText = rating;
+            }, 15000);
+
+            // ========== ФЕЙКОВАЯ ОПЛАТА (УВЕДОМЛЕНИЯ) ==========
+            const notifArea = document.getElementById('notifArea');
+
+            function showNotification(text, icon = '💎') {
+                const notif = document.createElement('div');
+                notif.className = 'notif';
+                notif.innerHTML = `<i class="fas fa-${icon === '💎' ? 'gem' : 'heart'}"></i> ${text}`;
+                notifArea.appendChild(notif);
+                setTimeout(() => {
+                    notif.remove();
+                }, 4000);
+            }
+
+            // каждые 20-35 секунд показываем "кто-то оплатил"
+            setInterval(() => {
+                let namesForNotif = ['Дмитрий', 'Максим', 'Кирилл', 'Иван', 'Олег', 'Артур', 'Вадим', 'Евгений', 'Степан'];
+                let randName = namesForNotif[Math.floor(Math.random() * namesForNotif.length)];
+                let plan = ['Романтик', 'Премиум', 'V.I.P.'][Math.floor(Math.random() * 3)];
+                showNotification(`${randName} оплатил «${plan}» · спасибо ❤️`, 'credit-card');
+            }, 17000);
+
+            // обработчики кнопок оплаты
+            document.querySelectorAll('.pay-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const plan = this.dataset.plan || 'тариф';
+                    // всплывашка
+                    showNotification(`Вы оплатили «${plan}» (fake). Подключаем к Анастасии...`, 'check-circle');
+                    // дополнительно меняем текст на кнопке на пару секунд
+                    const originalText = this.innerText;
+                    this.innerText = '✅ Оплачено';
+                    this.style.background = '#4f2b3e';
+                    setTimeout(() => {
+                        this.innerText = originalText;
+                        this.style.background = 'linear-gradient(145deg, #b34180, #802d5c)';
+                    }, 2000);
+
+                    // фейковое сообщение в чат
+                    const chatDiv = document.getElementById('chatMessages');
+                    const newMsg = document.createElement('div');
+                    newMsg.className = 'message';
+                    newMsg.innerHTML = `
+                        <div class="message-avatar"><i class="fas fa-user-astronaut"></i></div>
+                        <div class="message-bubble">
+                            <p><strong>Анастасия</strong> <span class="time">только что</span></p>
+                            <p>Ой, кто-то оплатил ${plan}... это ты? Как я рада... ❤️🔥</p>
+                        </div>
+                    `;
+                    chatDiv.appendChild(newMsg);
+                    // скролл вниз имитация
+                });
+            });
+
+            // дополнительно фейковый "эффект посещения" — раз в 40 сек новое сообщение от Анастасии
+            setInterval(() => {
+                const chatDiv = document.getElementById('chatMessages');
+                const phrases = [
+                    'Тихо играет музыка... тебе нравится? 🎶',
+                    'Я надену то платье, о котором ты думаешь...',
+                    'Сегодня так уютно, правда? 🕯️',
+                    'Представь, что я рядом...',
+                    'Хочешь, я расскажу секрет?',
+                    'У меня есть бутылка красного...',
+                    'Твои глаза такие глубокие даже через экран...'
+                ];
+                const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+                const newMsg = document.createElement('div');
+                newMsg.className = 'message';
+                newMsg.innerHTML = `
+                    <div class="message-avatar"><i class="fas fa-user-astronaut"></i></div>
+                    <div class="message-bubble">
+                        <p><strong>Анастасия</strong> <span class="time">сейчас</span></p>
+                        <p>${randomPhrase}</p>
+                    </div>
+                `;
+                chatDiv.appendChild(newMsg);
+                if (chatDiv.children.length > 6) {
+                    chatDiv.removeChild(chatDiv.children[0]); // чтобы не разрасталось
+                }
+            }, 28000);
+
+            // первое появление счётчика
+        })();
+    </script>
+
+    <!-- кнопка ручного вызова уведомления (для демонстрации) -->
+    <div style="position: fixed; bottom: 30px; left: 30px; z-index: 999;">
+        <button style="background: #3f1f33; border: 1px solid #ff99cc; border-radius: 40px; padding: 10px 20px; color: #ffd0e0; cursor: pointer; backdrop-filter: blur(5px);" onclick="showNotification('➕ фейк-посетитель: +1', 'user')">➕ Добавить фейк</button>
+    </div>
+
+    <!-- небольшой скрипт для доступа к showNotification из глобал (для кнопки) -->
+    <script>
+        window.showNotification = function(text, icon = 'gem') {
+            const notifArea = document.getElementById('notifArea');
+            const notif = document.createElement('div');
+            notif.className = 'notif';
+            notif.innerHTML = `<i class="fas fa-${icon}"></i> ${text}`;
+            notifArea.appendChild(notif);
+            setTimeout(() => {
+                notif.remove();
+            }, 4000);
+        };
+    </script>
+</body>
+</html>
